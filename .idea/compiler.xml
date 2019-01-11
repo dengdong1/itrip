@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="irtip-search" />
+        <module name="itrip-auth" />
+        <module name="itrip-beans" />
+        <module name="itrip-biz" />
+        <module name="itrip-dao" />
+        <module name="itrip-utils" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="itriptest" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

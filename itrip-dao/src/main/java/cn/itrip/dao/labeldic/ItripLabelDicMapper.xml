@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itrip.dao.labeldic.ItripLabelDicMapper">
+
+    <select id="getItripLabelDicById" resultType="cn.itrip.beans.pojo.ItripLabelDic" >
+        select
+                id as id,
+                name as name,
+                value as value,
+                description as description,
+                parentId as parentId,
+                pic as pic,
+                creationDate as creationDate,
+                createdBy as createdBy,
+                modifyDate as modifyDate,
+                modifiedBy as modifiedBy
+        from itrip_label_dic
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getItripLabelDicListByMap" resultType="cn.itrip.beans.pojo.ItripLabelDic" parameterType="java.util.Map">
+        select
+                id as id,
+                name as name,
+                value as value,
+                description as description,
+                parentId as parentId,
+                pic as pic,
+                creationDate as creationDate,
+                createdBy as createdBy,
+                modifyDate as modifyDate,
+                modifiedBy as modifiedBy
+        from itrip_label_dic
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+                    <if test="name != null and name!=''">
+                        and name=#{name}
+                    </if>
+                    <if test="value != null and value!=''">
+                        and value=#{value}
+                    </if>
+                    <if test="description != null and description!=''">
+                        and description=#{description}
+                    </if>
+                    <if test="parentId != null and parentId!=''">
+                        and parentId=#{parentId}
+                    </if>
+                    <if test="pic != null and pic!=''">
+                        and pic=#{pic}
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        and creationDate=#{creationDate}
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        and createdBy=#{createdBy}
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        and modifyDate=#{modifyDate}
+                    </if>
+        </trim>
+         order by creationDate desc
+        <if test="beginPos != null and beginPos!='' and pageSize != null  and pageSize !='' ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+
+    <select id="queryhotelroombed" resultType="cn.itrip.beans.pojo.ItripLabelDic" parameterType="java.util.Map">
+        select
+        id,
+        name,
+        description
+        from itrip_label_dic
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and description!=''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name!=''">
+                and name=#{name}
+            </if>
+            <if test="description != null and description!=''">
+                and description=#{description}
+            </if>
+            <if test="parentId != null and parentId!=''">
+                and parentId=#{parentId}
+            </if>
+        </trim>
+    </select>
+
+    <select id="gettraveltype"  resultType="cn.itrip.beans.pojo.ItripLabelDic" parameterType="java.util.Map">
+         select
+        id,
+        name,
+        description
+        from itrip_label_dic
+		where
+		parentId=#{parentId}
+    </select>
+
+    <select id="hotelgetimg" resultType="cn.itrip.beans.vo.ItripImageVO">
+        	select itrip_image.imgUrl,itrip_image.position from itrip_image,itrip_hotel
+        	where itrip_image.targetId in (itrip_hotel.id)
+	        and itrip_image.type=0 and itrip_hotel.id=#{id}
+    </select>
+
+    <select id="dicListByqueryhotelpolicy" resultType="cn.itrip.beans.pojo.ItripLabelDic" parameterType="java.util.Map">
+        SELECT id,hotelName,details,hotelPolicy
+        FROM itrip_hotel
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="hotelName != null and hotelName!=''">
+                and hotelName=#{hotelName}
+            </if>
+            <if test="details != null and details!=''">
+                and details=#{details}
+            </if>
+            <if test="hotelPolicy != null and hotelPolicy!=''">
+                and hotelPolicy=#{hotelPolicy}
+            </if>
+            <if test="id != null and id!=''">
+                and a.id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="dicListByMapqueryHotelfacilities" resultType="cn.itrip.beans.pojo.ItripHotel" parameterType="java.util.Map">
+        select facilities from itrip_hotel where id=#{id}
+    </select>
+
+
+    <select id="getItripHotel" resultType="cn.itrip.beans.pojo.ItripHotel">
+        select * from itrip_hotel where id=#{id}
+    </select>
+
+    <select id="getItripHotelone" resultType="cn.itrip.beans.pojo.ItripHotel">
+        select * from itrip_hotel where id=#{id}
+    </select>
+
+
+
+    <select id="getItripHoteltwo" resultType="cn.itrip.beans.pojo.ItripHotel">
+        select id from itrip_hotel where id=#{id}
+    </select>
+
+    <select id="dicListByMapqueryHotelfacilities1" resultType="cn.itrip.beans.pojo.ItripHotel" parameterType="java.util.Map">
+        select hotelPolicy from itrip_hotel where id=#{id}
+    </select>
+
+    <select id="getItripMapHotel" resultType="cn.itrip.beans.pojo.ItripLabelDic" parameterType="java.util.Map">
+        select name,description from itrip_label_dic,itrip_hotel_feature where itrip_label_dic.id in (itrip_hotel_feature.featureId)
+        and itrip_hotel_feature.hotelId=#{hotelId};
+    </select>
+    <select id="getloadPreAddOrderVO" resultType="cn.itrip.beans.vo.order.PreAddOrderVO" parameterType="java.util.Map">
+             select
+         a.hotelId,
+        a.roomId,
+        a.checkInDate,
+        a.checkOutDate,
+        a.count,
+        a.hotelName,
+        b.store,
+        a.payAmount as price
+        from
+        itrip_hotel_order a INNER JOIN itrip_product_store b on a.id=b.id
+    </select>
+
+
+    <select id="getpersonalorderinfo" resultType="cn.itrip.beans.vo.order.ItripPersonalHotelOrderVO" parameterType="java.util.Map">
+      		select
+		a.id as id,
+		a.bookType as bookType,
+		a.creationDate as creationDate,
+		a.noticePhone as noticePhone,
+		a.orderNo as orderNo,
+		a.orderStatus as orderStatus,
+		a.payAmount as payAmount,
+		a.payType as payType,
+		b.payType as roompayType
+		from
+		itrip_hotel_order a INNER JOIN itrip_hotel_room b on a.id=b.id
+        where a.id=#{id}
+    </select>
+
+    <select id="getcommentlist" resultType="cn.itrip.beans.pojo.ItripComment" parameterType="java.util.Map">
+         select
+               hotelid,
+               isOk,
+               isHavingImg
+               from itrip_comment
+               where hotelId=#{hotelId} and isOk=#{isOk} and isHavingImg=#{isHavingImg} limit #{pageSize},#{pageNo}
+    </select>
+
+    <select id="getCommentImg" resultType="cn.itrip.beans.vo.ItripImageVO" parameterType="java.util.Map">
+       select imgUrl,position from itrip_comment,itrip_image
+        where itrip_comment.id in (itrip_image.id) and itrip_comment.id=#{id}
+         and itrip_image.type=2
+    </select>
+
+    <select id="getIHotelgetimg" resultType="cn.itrip.beans.pojo.ItripHotelRoom" parameterType="java.util.Map">
+         select
+        imgUrl,
+        position
+        from itrip_hotel_room,itrip_image where itrip_hotel_room.id in (itrip_image.id)
+		and itrip_hotel_room.hotelId=#{hotelId}
+    </select>
+
+    <select id="gethotelscoreId" resultType="cn.itrip.beans.pojo.ItripComment">
+        select
+        avg(positionScore) as positionScore,
+        avg(facilitiesScore) as facilitiesScore,
+        avg(serviceScore) as serviceScore,
+        avg(hygieneScore) as hygieneScore,
+        avg(score) as score
+        from itrip_comment
+         where
+          hotelId=#{hotelId}
+    </select>
+
+
+    <select id="queryHotelFeature" resultType="cn.itrip.beans.pojo.ItripComment" parameterType="java.util.Map">
+
+    </select>
+
+    <select id="getcount" resultType="cn.itrip.beans.vo.comment.ItripingCommentVO">
+          SELECT
+             count(*) as allcomment,
+           count(CASE WHEN isOK=0 THEN isOK END) as improve,
+          count(CASE WHEN isOK=1 THEN isOK END) as isok,
+         count(CASE WHEN isHavingImg=0 THEN isHavingImg END) as havingimg
+        from itrip_comment
+        WHERE hotelId=#{hotelId}
+    </select>
+
+    <select id="getItripLabelDicCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from itrip_label_dic
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="name != null and name!=''">
+                    and name=#{name}
+                </if>
+                <if test="value != null and value!=''">
+                    and value=#{value}
+                </if>
+                <if test="description != null and description!=''">
+                    and description=#{description}
+                </if>
+                <if test="parentId != null and parentId!=''">
+                    and parentId=#{parentId}
+                </if>
+                <if test="pic != null and pic!=''">
+                    and pic=#{pic}
+                </if>
+                <if test="creationDate != null and creationDate!=''">
+                    and creationDate=#{creationDate}
+                </if>
+                <if test="createdBy != null and createdBy!=''">
+                    and createdBy=#{createdBy}
+                </if>
+                <if test="modifyDate != null and modifyDate!=''">
+                    and modifyDate=#{modifyDate}
+                </if>
+                <if test="modifiedBy != null and modifiedBy!=''">
+                    and modifiedBy=#{modifiedBy}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertItripLabelDic" parameterType="cn.itrip.beans.pojo.ItripLabelDic">
+        insert into itrip_label_dic(
+                        name,
+                        value,
+                        description,
+                        parentId,
+                        pic,
+                        creationDate,
+                        createdBy,
+                        modifyDate,
+                        modifiedBy)
+        values(
+                     #{name},
+                     #{value},
+                     #{description},
+                     #{parentId},
+                     #{pic},
+                     #{creationDate},
+                     #{createdBy},
+                     #{modifyDate},
+                    #{modifiedBy})
+    </insert>
+
+    <update id="updateItripLabelDic" parameterType="cn.itrip.beans.pojo.ItripLabelDic">
+        update itrip_label_dic
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="name != null and name!=''">
+                        name=#{name},
+                    </if>
+                    <if test="value != null and value!=''">
+                        value=#{value},
+                    </if>
+                    <if test="description != null and description!=''">
+                        description=#{description},
+                    </if>
+                    <if test="parentId != null and parentId!=''">
+                        parentId=#{parentId},
+                    </if>
+                    <if test="pic != null and pic!=''">
+                        pic=#{pic},
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        creationDate=#{creationDate},
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        createdBy=#{createdBy},
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        modifyDate=#{modifyDate},
+                    </if>
+                    <if test="modifiedBy != null and modifiedBy!=''">
+                        modifiedBy=#{modifiedBy}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteItripLabelDicById" parameterType="Long">
+        delete from itrip_label_dic where id = #{id}
+    </delete>
+
+    <select id="gethoteldesc" resultType="cn.itrip.beans.vo.comment.ItripHotelDescVO">
+          select
+           id as hotelId,
+           hotelLevel,
+           hotelName
+          from itrip_hotel
+          where id=#{id}
+    </select>
+    <!--cn.itrip.beans.vo.order.ItripListHotelOrderVO-->
+
+    <select id="getpersonalorderlistsone" resultType="cn.itrip.beans.pojo.ItripHotelOrder" parameterType="java.util.Map">
+                      select
+                id,
+                checkInDate,
+                creationDate,
+                orderNo,
+                orderStatus,
+                payAmount,
+                hotelName,
+                linkUserName,
+                orderType,
+                payAmount,
+                hotelid
+                from
+                itrip_hotel_order
+                order by creationDate desc
+                limit #{beginPos},#{pageSize}
+    </select>
+
+
+
+    <select id="getpersonnalorderlistCount" resultType="Integer" parameterType="java.util.Map">
+      select
+	  count(*)
+	  from
+	  itrip_hotel_order
+    </select>
+
+    <select id="getItripLabelDicByParentId" resultType="cn.itrip.beans.vo.ItripLabelDicVO" >
+        select
+        id as id,
+        name as name,
+        value as value,
+        description as description,
+        parentId as parentId,
+        pic as pic,
+        creationDate as creationDate,
+        createdBy as createdBy,
+        modifyDate as modifyDate,
+        modifiedBy as modifiedBy
+        from itrip_label_dic
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="parentId != null">
+                and parentId=#{parentId}
+            </if>
+        </trim>
+    </select>
+</mapper>
